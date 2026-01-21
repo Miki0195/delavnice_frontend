@@ -25,19 +25,19 @@ const PrinciplesSection = () => {
       icon: Users,
       title: 'Vključenost celotne skupnosti',
       description:
-        'Učinkovita preventiva vključuje starše, učitelje, vrstnike in širšo skupnost ter poudarja sodelovanje in podporo na vseh ravneh. Prilagodljivost starosti: Programi morajo biti prilagojeni starostni skupini, za katero so namenjeni, ter upoštevati razvojne značilnosti otrok in mladostnikov.',
+        'Učinkovita preventiva vključuje starše, učitelje, vrstnike in širšo skupnost ter poudarja sodelovanje in podporo na vseh ravneh.',
     },
     {
       icon: TrendingUp,
       title: 'Prilagodljivost starosti',
       description:
-        'Programi morajo biti prilagojeni starostni skupini, za katero so namenjeni, ter upoštevati razvojne značilnosti otrok in mladostnikov. Dolgotrajna podpora: Preventivni učinki so najučinkovitejši, ko so aktivnosti kontinuirane in podprte z dolgoročnimi strategijami.',
+        'Programi morajo biti prilagojeni starostni skupini, za katero so namenjeni, ter upoštevati razvojne značilnosti otrok in mladostnikov.',
     },
     {
       icon: Clock,
       title: 'Dolgotrajna podpora',
       description:
-        'Preventivni učinki so najučinkovitejši, ko so aktivnosti kontinuirane in podprte z dolgoročnimi strategijami.',
+        'Preventivni programi so najučinkovitejši, ko so aktivnosti kontinuirane in podprte z dolgoročnimi strategijami.',
     },
     {
       icon: UserCheck,

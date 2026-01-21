@@ -1,13 +1,15 @@
-import { useState, FormEvent } from 'react';
+import { useState } from 'react';
+import type { FormEvent } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import Button from '../ui/Button';
 
 interface LoginFormProps {
   onSuccess: () => void;
+  onForgotPassword?: () => void;
 }
 
-const LoginForm = ({ onSuccess }: LoginFormProps) => {
+const LoginForm = ({ onSuccess, onForgotPassword }: LoginFormProps) => {
   const { login } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
@@ -28,7 +30,7 @@ const LoginForm = ({ onSuccess }: LoginFormProps) => {
       if (userData?.role === 'ADMIN') {
         navigate('/admin');
       } else {
-        navigate('/dashboard');
+        navigate('/');
       }
     } catch (err: any) {
       console.error('Login error:', err);
@@ -98,9 +100,13 @@ const LoginForm = ({ onSuccess }: LoginFormProps) => {
       </Button>
 
       <div className="text-center mt-4">
-        <a href="#" className="text-sm text-primary hover:underline">
+        <button
+          type="button"
+          onClick={onForgotPassword}
+          className="text-sm text-primary hover:underline"
+        >
           Ste pozabili geslo?
-        </a>
+        </button>
       </div>
     </form>
   );

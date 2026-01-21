@@ -4,6 +4,7 @@ import { ChevronLeft, Upload, Plus, X, Info, FileText, Image as ImageIcon, Calen
 import { useMutation, useQuery } from '@tanstack/react-query';
 import DashboardLayout from '../../components/dashboard/DashboardLayout';
 import Button from '../../components/ui/Button';
+import KeywordInput from '../../components/ui/KeywordInput';
 import {
   createWorkshop,
   updateWorkshop,
@@ -59,6 +60,7 @@ const DodajStoritev = () => {
   const [slots, setSlots] = useState<SlotForm[]>([]);
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
   const [executionLocation, setExecutionLocation] = useState('');
+  const [keywords, setKeywords] = useState<string[]>([]);
   
   // Contact info from profile
   const [contactInfo, setContactInfo] = useState({
@@ -416,9 +418,9 @@ const DodajStoritev = () => {
               {/* Naslov storitve */}
               <div>
                 <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
-                  Naslov storitve
+                  Naslov storitve <span className="text-red-500">*</span>
                 </label>
-                <span className="text-gray-500 text-xs">0/40 znakov</span>
+                <span className="text-gray-500 text-xs">{formData.title.length}/40 znakov</span>
                 <input
                   type="text"
                   id="title"
@@ -436,7 +438,7 @@ const DodajStoritev = () => {
                 <label htmlFor="subtitle" className="block text-sm font-medium text-gray-700 mb-1">
                   Podnaslov storitve
                 </label>
-                <span className="text-gray-500 text-xs">0/100 znakov</span>
+                <span className="text-gray-500 text-xs">{(formData.subtitle || '').length}/100 znakov</span>
                 <input
                   type="text"
                   id="subtitle"
@@ -454,7 +456,7 @@ const DodajStoritev = () => {
                 {/* Kategorija */}
                 <div>
                   <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
-                    Kategorija
+                    Kategorija <span className="text-red-500">*</span>
                   </label>
                   <select
                     id="category"
@@ -464,7 +466,7 @@ const DodajStoritev = () => {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary mt-1"
                     required
                   >
-                    <option value="">IzberiKategorija</option>
+                    <option value="">Izberi kategorija</option>
                     {CATEGORIES.map((cat) => (
                       <option key={cat.value} value={cat.value}>
                         {cat.label}
@@ -476,7 +478,7 @@ const DodajStoritev = () => {
                 {/* Vrsta aktivnosti */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Vrsta aktivnosti
+                    Vrsta aktivnosti <span className="text-red-500">*</span>
                   </label>
                   <div className="border border-gray-300 rounded-md p-3 max-h-40 overflow-y-auto mt-1">
                     {isLoadingActivityTypes ? (
@@ -528,21 +530,21 @@ const DodajStoritev = () => {
 
               {/* Ključne besede */}
               <div>
-                <label htmlFor="keywords" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="keywords" className="block text-sm font-medium text-gray-700 mb-2">
                   Ključne besede
                 </label>
-                <input
-                  type="text"
-                  id="keywords"
-                  placeholder="Vpišite ključne besede, ločene z vejico"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
+                <KeywordInput
+                  keywords={keywords}
+                  onChange={setKeywords}
+                  maxKeywords={10}
+                  maxKeywordLength={40}
                 />
               </div>
 
               {/* Regija */}
               <div>
                 <label htmlFor="region" className="block text-sm font-medium text-gray-700 mb-1">
-                  Regija
+                  Regija <span className="text-red-500">*</span>
                 </label>
                 <select
                   id="region"
@@ -595,7 +597,7 @@ const DodajStoritev = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="target_group" className="block text-sm font-medium text-gray-700 mb-1">
-                    Ciljna skupina
+                    Ciljna skupina <span className="text-red-500">*</span>
                   </label>
                   <span className="text-gray-500 text-xs">
                     {formData.target_group.length}/50 znakov
@@ -616,7 +618,7 @@ const DodajStoritev = () => {
                 {/* Trajanje 1 izvedbe */}
                 <div>
                   <label htmlFor="program_duration" className="block text-sm font-medium text-gray-700 mb-1">
-                    Trajanje 1 izvedbe
+                    Trajanje 1 izvedbe <span className="text-red-500">*</span>
                   </label>
                   <span className="text-gray-500 text-xs">
                     {formData.program_duration.length}/100 znakov
@@ -638,7 +640,7 @@ const DodajStoritev = () => {
               {/* Opis */}
               <div>
                 <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
-                  Opis storitve z nameni in cilji programa
+                  Opis storitve z nameni in cilji programa <span className="text-red-500">*</span>
                 </label>
                 <span className="text-gray-500 text-xs">
                   {wordCount}/150 besed
@@ -678,7 +680,7 @@ const DodajStoritev = () => {
                     {/* Service title */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Naslov storitve
+                        Naslov storitve <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="text"
@@ -693,7 +695,7 @@ const DodajStoritev = () => {
                     {/* Description */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Opis
+                        Opis <span className="text-red-500">*</span>
                       </label>
                       <textarea
                         value={service.description}
@@ -708,7 +710,7 @@ const DodajStoritev = () => {
                     {/* Number of sessions */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Število srečanj
+                        Število srečanj <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="number"
@@ -723,7 +725,7 @@ const DodajStoritev = () => {
                     {/* Duration (e.g. 60 minutes) */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Trajanje (min)
+                        Trajanje (min) <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="number"
@@ -739,7 +741,7 @@ const DodajStoritev = () => {
                     {/* Price */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Cena (€)
+                        Cena (€) <span className="text-red-500">*</span>
                       </label>
                       <div className="flex items-center gap-2">
                         <input
@@ -1092,7 +1094,7 @@ const DodajStoritev = () => {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Začetek
+                        Začetek <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="datetime-local"
@@ -1105,7 +1107,7 @@ const DodajStoritev = () => {
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Konec
+                        Konec <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="datetime-local"

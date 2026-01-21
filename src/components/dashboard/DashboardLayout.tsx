@@ -60,17 +60,28 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     navigate('/');
   };
 
+  // Menu items based on role
   const menuItems = [
+    // Dashboard - only for PROVIDER and ADMIN, not for SCHOOL
+    ...(user?.role !== 'SCHOOL'
+      ? [
     {
       title: 'Nadzorna plošča',
       path: '/dashboard',
       icon: LayoutDashboard,
     },
+        ]
+      : []),
+    // Moje rezervacije - only for non-providers (schools can see their bookings)
+    ...(user?.role !== 'PROVIDER'
+      ? [
     {
       title: 'Moje rezervacije',
       path: '/dashboard/rezervacije',
       icon: Calendar,
     },
+        ]
+      : []),
     {
       title: 'Sporočila',
       path: '/dashboard/sporocila',
@@ -81,8 +92,8 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
   // Additional menu items based on role
   const bottomMenuItems = [
-    // Zaznamki for non-providers (providers have it in Delavnice section)
-    ...(user?.role !== 'PROVIDER'
+    // Zaznamki for schools (providers have it in Delavnice section)
+    ...(user?.role === 'SCHOOL'
       ? [
           {
             title: 'Zaznamki',

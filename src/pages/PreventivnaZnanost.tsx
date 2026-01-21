@@ -5,7 +5,7 @@ import ChallengesSection from '../components/preventivna/ChallengesSection';
 import QualitySection from '../components/preventivna/QualitySection';
 import VisionSection from '../components/preventivna/VisionSection';
 import CategoriesCarouselSection from '../components/preventivna/CategoriesCarouselSection';
-import ReferencesSection from '../components/preventivna/ReferencesSection';
+// import ReferencesSection from '../components/preventivna/ReferencesSection';
 
 const PreventivnaZnanost = () => {
   return (
@@ -57,7 +57,7 @@ const PreventivnaZnanost = () => {
       <CategoriesCarouselSection />
 
       {/* References Section */}
-      <ReferencesSection />
+      {/* <ReferencesSection /> */}
     </div>
   );
 };

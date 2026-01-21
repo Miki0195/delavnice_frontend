@@ -1,4 +1,6 @@
-import { useState, FormEvent } from 'react';
+import { useState } from 'react';
+import type { FormEvent } from 'react';
+import { Eye, EyeOff } from 'lucide-react';
 import { registerSchool, registerProvider } from '../../api/auth';
 import Button from '../ui/Button';
 
@@ -20,6 +22,8 @@ const RegisterForm = ({ type, onSuccess }: RegisterFormProps) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -136,16 +140,25 @@ const RegisterForm = ({ type, onSuccess }: RegisterFormProps) => {
         <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
           Geslo
         </label>
+        <div className="relative">
         <input
-          type="password"
+            type={showPassword ? 'text' : 'password'}
           id="password"
           name="password"
           value={formData.password}
           onChange={handleChange}
           required
-          className={`input-field ${errors.password ? 'border-red-500' : ''}`}
+            className={`input-field pr-10 ${errors.password ? 'border-red-500' : ''}`}
           placeholder="••••••••"
         />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+          >
+            {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+          </button>
+        </div>
         {errors.password && <p className="text-red-600 text-sm mt-1">{errors.password}</p>}
         <p className="text-xs text-gray-500 mt-1">
           Geslo mora biti najmanj 8 znakov dolgo in vsebovati številke in črke.
@@ -159,16 +172,25 @@ const RegisterForm = ({ type, onSuccess }: RegisterFormProps) => {
         >
           Ponovite geslo
         </label>
+        <div className="relative">
         <input
-          type="password"
+            type={showConfirmPassword ? 'text' : 'password'}
           id="password_confirm"
           name="password_confirm"
           value={formData.password_confirm}
           onChange={handleChange}
           required
-          className={`input-field ${errors.password_confirm ? 'border-red-500' : ''}`}
+            className={`input-field pr-10 ${errors.password_confirm ? 'border-red-500' : ''}`}
           placeholder="••••••••"
         />
+          <button
+            type="button"
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+          >
+            {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+          </button>
+        </div>
         {errors.password_confirm && (
           <p className="text-red-600 text-sm mt-1">{errors.password_confirm}</p>
         )}
@@ -186,7 +208,12 @@ const RegisterForm = ({ type, onSuccess }: RegisterFormProps) => {
           />
           <span className="text-sm text-gray-700">
             Strinjam se s{' '}
-            <a href="/terms" className="text-primary hover:underline">
+            <a 
+              href="/pogoji-uporabe" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-primary hover:underline"
+            >
               pogoji uporabe
             </a>
           </span>
@@ -206,7 +233,12 @@ const RegisterForm = ({ type, onSuccess }: RegisterFormProps) => {
           />
           <span className="text-sm text-gray-700">
             Strinjam se s{' '}
-            <a href="/privacy" className="text-primary hover:underline">
+            <a 
+              href="/politika-zasebnosti" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-primary hover:underline"
+            >
               politiko zasebnosti
             </a>
           </span>

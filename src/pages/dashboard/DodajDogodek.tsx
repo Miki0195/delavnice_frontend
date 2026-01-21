@@ -4,6 +4,7 @@ import { ChevronLeft, Upload, Plus, X, Info, FileText, Image as ImageIcon, Calen
 import { useMutation, useQuery } from '@tanstack/react-query';
 import DashboardLayout from '../../components/dashboard/DashboardLayout';
 import Button from '../../components/ui/Button';
+import KeywordInput from '../../components/ui/KeywordInput';
 import {
   createWorkshop,
   updateWorkshop,
@@ -54,6 +55,7 @@ const DodajDogodek = () => {
   const [services, setServices] = useState<ServiceForm[]>([]);
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
   const [executionLocation, setExecutionLocation] = useState('');
+  const [keywords, setKeywords] = useState<string[]>([]);
   
   // Contact info from profile
   const [contactInfo, setContactInfo] = useState({
@@ -300,7 +302,7 @@ const DodajDogodek = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div>
                   <label htmlFor="target_group" className="block text-sm font-medium text-gray-700 mb-1">
-                    Ciljna skupina
+                    Ciljna skupina <span className="text-red-500">*</span>
                   </label>
                   <span className="text-gray-500 text-xs">
                     {formData.target_group.length}/50 znakov
@@ -320,7 +322,7 @@ const DodajDogodek = () => {
 
                 <div>
                   <label htmlFor="program_duration" className="block text-sm font-medium text-gray-700 mb-1">
-                    Trajanje programa
+                    Trajanje programa <span className="text-red-500">*</span>
                   </label>
                   <span className="text-gray-500 text-xs">
                     {formData.program_duration.length}/100 znakov
@@ -340,7 +342,7 @@ const DodajDogodek = () => {
 
                 <div>
                   <label htmlFor="region" className="block text-sm font-medium text-gray-700 mb-1">
-                    Regija
+                    Regija <span className="text-red-500">*</span>
                   </label>
                   <select
                     id="region"
@@ -383,7 +385,7 @@ const DodajDogodek = () => {
               {/* Opis */}
               <div>
                 <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
-                  Opis dogodka z nameni in cilji
+                  Opis dogodka z nameni in cilji <span className="text-red-500">*</span>
                 </label>
                 <span className="text-gray-500 text-xs">
                   {wordCount}/150 besed
@@ -412,9 +414,9 @@ const DodajDogodek = () => {
               {/* Naslov dogodka */}
               <div>
                 <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
-                  Naslov dogodka
+                  Naslov dogodka <span className="text-red-500">*</span>
                 </label>
-                <span className="text-gray-500 text-xs">0/40 znakov</span>
+                <span className="text-gray-500 text-xs">{formData.title.length}/40 znakov</span>
                 <input
                   type="text"
                   id="title"
@@ -432,7 +434,7 @@ const DodajDogodek = () => {
                 <label htmlFor="subtitle" className="block text-sm font-medium text-gray-700 mb-1">
                   Podnaslov dogodka
                 </label>
-                <span className="text-gray-500 text-xs">0/100 znakov</span>
+                <span className="text-gray-500 text-xs">{(formData.subtitle || '').length}/100 znakov</span>
                 <input
                   type="text"
                   id="subtitle"
@@ -450,7 +452,7 @@ const DodajDogodek = () => {
                 {/* Kategorija */}
                 <div>
                   <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
-                    Kategorija
+                    Kategorija <span className="text-red-500">*</span>
                   </label>
                   <select
                     id="category"
@@ -472,7 +474,7 @@ const DodajDogodek = () => {
                 {/* Vrsta aktivnosti */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Vrsta aktivnosti
+                    Vrsta aktivnosti <span className="text-red-500">*</span>
                   </label>
                   <div className="border border-gray-300 rounded-md p-3 max-h-40 overflow-y-auto mt-1">
                     {isLoadingActivityTypes ? (
@@ -524,14 +526,14 @@ const DodajDogodek = () => {
 
               {/* Ključne besede */}
               <div>
-                <label htmlFor="keywords" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="keywords" className="block text-sm font-medium text-gray-700 mb-2">
                   Ključne besede
                 </label>
-                <input
-                  type="text"
-                  id="keywords"
-                  placeholder="Vpišite ključne besede, ločene z vejico"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
+                <KeywordInput
+                  keywords={keywords}
+                  onChange={setKeywords}
+                  maxKeywords={10}
+                  maxKeywordLength={40}
                 />
               </div>
             </div>
@@ -547,7 +549,7 @@ const DodajDogodek = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label htmlFor="event_date" className="block text-sm font-medium text-gray-700 mb-1">
-                  Datum dogodka
+                  Datum dogodka <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="datetime-local"
@@ -698,7 +700,7 @@ const DodajDogodek = () => {
                   <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Naslov storitve
+                        Naslov storitve <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="text"
@@ -712,7 +714,7 @@ const DodajDogodek = () => {
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Opis
+                        Opis <span className="text-red-500">*</span>
                       </label>
                       <textarea
                         value={service.description}
@@ -726,7 +728,7 @@ const DodajDogodek = () => {
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Število srečanj
+                        Število srečanj <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="number"
@@ -740,7 +742,7 @@ const DodajDogodek = () => {
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Trajanje (min)
+                        Trajanje (min) <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="number"
@@ -755,7 +757,7 @@ const DodajDogodek = () => {
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Cena (€)
+                        Cena (€) <span className="text-red-500">*</span>
                       </label>
                       <div className="flex items-center gap-2">
                         <input

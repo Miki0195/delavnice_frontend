@@ -1,4 +1,16 @@
+import { Check } from 'lucide-react';
+
 const ZakajTaPortalSection = () => {
+  const reasons = [
+    <>ker <span className="font-semibold text-primary">zmanjšuje administrativno breme</span> pri iskanju, primerjanju in preverjanju izvajalcev</>,
+    <>ker <span className="font-semibold text-primary">poenostavi iskanje in izbor programov</span> za šole na enem mestu</>,
+    <>ker omogoča dostop do <span className="font-semibold text-primary">preverjenih, kakovostnih in strokovno utemeljenih vsebin</span></>,
+    <>ker prispeva k <span className="font-semibold text-primary">večji preglednosti</span> na področju preventivnih programov</>,
+    <>ker ščiti <span className="font-semibold text-primary">dobrobit otrok in mladih</span> pred neustreznimi ali nestrokovnimi vsebinami</>,
+    <>ker krepi <span className="font-semibold text-primary">zaupanje med šolami, izvajalci in financerji</span></>,
+    <>ker spodbuja <span className="font-semibold text-primary">kakovost, standarde in dolgoročno učinkovitost</span> programov</>,
+  ];
+
   return (
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
@@ -7,37 +19,20 @@ const ZakajTaPortalSection = () => {
             Zakaj ta portal?
           </h2>
 
-          <div className="space-y-6 text-lg text-gray-700 leading-relaxed">
-            <p>
-              Otroci in mladi preživijo v šoli velik del svojega časa prav v ključnih
-              letih, ko oblikujejo lastna prepričanja in vrednote. V tem obdobju ima
-              šola poleg poučevanja pomembno vlogo tudi pri{' '}
-              <strong className="text-gray-900">
-                preventivnem delovanju in ozaveščanju učencev
-              </strong>{' '}
-              ter dijakov o temah, ki jih šolski kurikulum ne vključuje.
-            </p>
-
-            <p>
-              Preventivni programi in drugi programi neformalnega izobraževanja so zato
-              nepogrešljiv del celostnega izobraževanja, ki ga šole izvajajo s podporo
-              ministrstev in občin, ki te programe pogosto sofinancirajo. Vendar pa
-              zaradi pomanjkanja enotnih standardov in preglednosti na tem področju v
-              šole vse pogosteje vstopajo programi, ki jih izvajajo tudi neustrezno
-              usposobljeni posamezniki. Takšna praksa lahko škoduje mladim, saj so ti v
-              občutljivem obdobju svojega razvoja.
-            </p>
-
-            <p>
-              Portal delavnice.net{' '}
-              <strong className="text-gray-900">
-                omogoča dostop do preglednih in zanesljivih informacij o ponujenih
-                programih
-              </strong>
-              . S tem prispevamo k temu, da v šole vstopajo le kakovostni in dokazano
-              učinkoviti programi, kar olajša delo šolam in organizacijam, ki izvajajo
-              te programe, hkrati pa varuje dobrobit mladih.
-            </p>
+          <div className="space-y-4">
+            {reasons.map((reason, index) => (
+              <div
+                key={index}
+                className="flex items-start gap-4 p-4 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center mt-1">
+                  <Check className="w-4 h-4 text-primary" />
+                </div>
+                <p className="text-lg text-gray-700 leading-relaxed">
+                  {reason}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </div>

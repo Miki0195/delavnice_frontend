@@ -3,7 +3,8 @@ import ZakajTaPortalSection from '../components/oplatformi/ZakajTaPortalSection'
 import PrednostiOPlatformiSection from '../components/oplatformi/PrednostiOPlatformiSection';
 import KomuJeNamenjenParallaxSection from '../components/oplatformi/KomuJeNamenjenParallaxSection';
 import KakoDelajeSection from '../components/oplatformi/KakoDelajeSection';
-import KomuJeNamenjenSection from '../components/oplatformi/KomuJePortalNamenjenSection';
+import ZakajJePomembenSection from '../components/oplatformi/ZakajJePomembenSection';
+// import KomuJeNamenjenSection from '../components/oplatformi/KomuJePortalNamenjenSection';
 import KdoGaUpravljaSection from '../components/oplatformi/KdoGaUpravljaSection';
 import MnenjaUporabnikovSection from '../components/oplatformi/MnenjaUporabnikovSection';
 
@@ -23,10 +24,13 @@ const OPlatformi = () => {
       <KomuJeNamenjenParallaxSection />
 
       {/* Who Is It For - Detail Section */}
-      <KomuJeNamenjenSection />
+      {/* <KomuJeNamenjenSection /> */}
 
       {/* How Does It Work */}
       <KakoDelajeSection />
+
+      {/* Why Is The Portal Important */}
+      <ZakajJePomembenSection />
 
       {/* Who Manages Quality */}
       <KdoGaUpravljaSection />

@@ -44,12 +44,19 @@ const BookingPage = () => {
     if (!isAuthenticated) {
       alert('Za rezervacijo se morate prijaviti.');
       navigate(`/workshop/${id}`);
+      return;
+    }
+    // Providers cannot book workshops - they can only create them
+    if (user?.role === 'PROVIDER') {
+      alert('Organizacije ne morejo rezervirati delavnic. Lahko jih samo ustvarjate.');
+      navigate(`/workshop/${id}`);
+      return;
     }
     if (!selectedService || !selectedDate || !selectedTime) {
       alert('Prosimo, izberite storitev, datum in čas.');
       navigate(`/workshop/${id}`);
     }
-  }, [isAuthenticated, selectedService, selectedDate, selectedTime, id, navigate]);
+  }, [isAuthenticated, user, selectedService, selectedDate, selectedTime, id, navigate]);
 
   // Create reservation mutation
   const reservationMutation = useMutation({

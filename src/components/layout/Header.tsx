@@ -42,16 +42,40 @@ const Header = () => {
     navigate('/');
   };
 
-  const menuItems = [
-    { icon: LayoutDashboard, label: 'Nadzorna plošča', path: '/dashboard' },
-    { icon: Calendar, label: 'Moje rezervacije', path: '/dashboard/rezervacije' },
-    { icon: Briefcase, label: 'Moje delavnice', path: '/dashboard/delavnice' },
-    { icon: Star, label: 'Ocene', path: '/dashboard/ocene' },
-    { icon: Heart, label: 'Zaznamki', path: '/dashboard/zaznamki' },
-    { icon: MessageSquare, label: 'Sporočila', path: '/dashboard/sporocila', badge: 1 },
-    { icon: Calendar, label: 'Rezervacije', path: '/dashboard/vse-rezervacije', badge: 1 },
-    { icon: User, label: 'Moj profil', path: '/dashboard/profil' },
-  ];
+  // Dynamic menu items based on user role
+  const getMenuItems = () => {
+    const items = [];
+
+    // Dashboard - only for PROVIDER and ADMIN, not for SCHOOL
+    if (user?.role !== 'SCHOOL') {
+      items.push({ icon: LayoutDashboard, label: 'Nadzorna plošča', path: '/dashboard' });
+    }
+
+    // Moje rezervacije - only for non-providers (schools can see their bookings)
+    if (user?.role !== 'PROVIDER') {
+      items.push({ icon: Calendar, label: 'Moje rezervacije', path: '/dashboard/rezervacije' });
+    }
+
+    // Provider-specific menu items
+    if (user?.role === 'PROVIDER') {
+      items.push({ icon: Briefcase, label: 'Moje delavnice', path: '/dashboard/delavnice' });
+      items.push({ icon: Star, label: 'Ocene', path: '/dashboard/ocene' });
+      items.push({ icon: Calendar, label: 'Rezervacije', path: '/dashboard/vse-rezervacije', badge: 1 });
+    }
+
+    // Zaznamki - available for all roles
+    items.push({ icon: Heart, label: 'Zaznamki', path: '/dashboard/zaznamki' });
+    
+    // Sporočila - available for all roles
+    items.push({ icon: MessageSquare, label: 'Sporočila', path: '/dashboard/sporocila', badge: 1 });
+    
+    // Profile - available for all roles
+    items.push({ icon: User, label: 'Moj profil', path: '/dashboard/profil' });
+
+    return items;
+  };
+
+  const menuItems = getMenuItems();
 
   return (
     <>
@@ -102,6 +126,21 @@ const Header = () => {
             >
               Preventivna znanost
             </NavLink>
+            {/* Paketi - Only visible for providers */}
+            {isAuthenticated && user?.role === 'PROVIDER' && (
+              <NavLink
+                to="/paketi"
+                className={({ isActive }) =>
+                  `text-base font-medium transition-colors ${
+                    isActive
+                      ? 'text-primary'
+                      : 'text-gray-700 hover:text-primary'
+                  }`
+                }
+              >
+                Paketi
+              </NavLink>
+            )}
             <NavLink
               to="/kontakt"
               className={({ isActive }) =>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { X, School, Briefcase } from 'lucide-react';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
+import ForgotPasswordForm from './ForgotPasswordForm';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -11,7 +12,7 @@ interface AuthModalProps {
 
 const AuthModal = ({ isOpen, onClose, initialView = 'login' }: AuthModalProps) => {
   const [currentView, setCurrentView] = useState<
-    'login' | 'register' | 'register-school' | 'register-provider'
+    'login' | 'register' | 'register-school' | 'register-provider' | 'forgot-password'
   >(initialView);
 
   if (!isOpen) return null;
@@ -45,7 +46,10 @@ const AuthModal = ({ isOpen, onClose, initialView = 'login' }: AuthModalProps) =
               <h2 className="text-3xl font-bold text-gray-900 mb-2">Prijava</h2>
               <p className="text-gray-600 mb-6">Dobrodošli nazaj!</p>
 
-              <LoginForm onSuccess={handleSuccess} />
+              <LoginForm 
+                onSuccess={handleSuccess}
+                onForgotPassword={() => setCurrentView('forgot-password')}
+              />
 
               <div className="mt-6 text-center">
                 <p className="text-gray-600">
@@ -58,6 +62,13 @@ const AuthModal = ({ isOpen, onClose, initialView = 'login' }: AuthModalProps) =
                   </button>
                 </p>
               </div>
+            </div>
+          )}
+
+          {/* Forgot Password View */}
+          {currentView === 'forgot-password' && (
+            <div>
+              <ForgotPasswordForm onBack={() => setCurrentView('login')} />
             </div>
           )}
 

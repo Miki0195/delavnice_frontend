@@ -93,6 +93,18 @@ const WorkshopDetail = () => {
   const handleBooking = () => {
     if (!workshop) return;
     
+    // Check if user is authenticated
+    if (!isAuthenticated) {
+      alert('Za rezervacijo se morate prijaviti.');
+      return;
+    }
+    
+    // Providers cannot book workshops - they can only create them
+    if (user?.role === 'PROVIDER') {
+      alert('Organizacije ne morejo rezervirati delavnic. Lahko jih samo ustvarjate.');
+      return;
+    }
+    
     // Validation for services
     if (workshop.kind === 'SERVICE') {
       if (!selectedServiceId) {
@@ -883,6 +895,7 @@ const WorkshopDetail = () => {
                 </div>
               ) : null}
               
+              {user?.role !== 'PROVIDER' ? (
               <Button
                 variant="primary"
                 fullWidth
@@ -891,6 +904,13 @@ const WorkshopDetail = () => {
               >
                 Zahtevajte rezervacijo
               </Button>
+              ) : (
+                <div className="mt-6 p-4 bg-gray-100 rounded-lg border border-gray-300">
+                  <p className="text-sm text-gray-600 text-center">
+                    Kot organizacija ne morete rezervirati delavnic. Lahko jih ustvarjate v svojem nadzornem pultu.
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* Provider Card */}
